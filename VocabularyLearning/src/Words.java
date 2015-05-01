@@ -9,7 +9,7 @@ public class Words {
 
 	private String currentWord; // actual German word
 	private String currentTranslation; // translated word
-	private int currentScore;
+	//private int currentScore;
 
 	private String[] words;
 	private String[] translations;
@@ -165,7 +165,7 @@ public class Words {
 
 		currentWord = words[randIndex];
 		currentTranslation = translations[randIndex];
-		currentScore = scores[randIndex];
+		//currentScore = scores[randIndex];
 
 		return randIndex;
 	}
