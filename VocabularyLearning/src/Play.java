@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Play {
-
+//master branch comment
 	public static void main(String[] args) throws FileNotFoundException {
 
 		Words words = new Words("slowka.txt");
