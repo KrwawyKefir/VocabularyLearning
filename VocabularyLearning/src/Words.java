@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Words {
-//comment
 	int numberOfWords;
 
 	private String currentWord; // actual German word
