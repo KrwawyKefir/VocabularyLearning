@@ -11,7 +11,7 @@ public class Words {
 
 	private String currentWord; // actual German word
 	private String currentTranslation; // translated word
-	// private int currentScore;
+	private int currentScore;
 
 	private String[] words;
 	private String[] translations;
