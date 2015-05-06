@@ -1,15 +1,18 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Words {
 
-	int numberOfwords;
+	int numberOfWords;
 
 	private String currentWord; // actual German word
 	private String currentTranslation; // translated word
-	//private int currentScore;
+	// private int currentScore;
 
 	private String[] words;
 	private String[] translations;
@@ -28,57 +31,72 @@ public class Words {
 	}
 
 	// constructor for loading text file into arrays
-	public Words(String filePath) throws FileNotFoundException {
-
-		File dictionary = new File(filePath);
-
-		// -----------------------------------------------------
-		// beginning of Scanner for counting lines
-		input = new Scanner(dictionary);
-
-		// incrementing counter until next line does not exist
-		while (input.hasNextLine()) {
-			numberOfwords++;
-			input.nextLine();
+	public Words(String filePath) {
+		
+		numberOfWords = countWords(filePath);
+		loadWords(filePath);
+	
+		loadNextRandomWord();
+	}
+	
+	private void loadWords(String filePath){
+		
+		words = new String[numberOfWords];
+		translations = new String[numberOfWords];
+		scores = new int[numberOfWords];
+		
+		File dictionaryFile = new File(filePath);
+		
+		try(BufferedReader bReader = new BufferedReader(new FileReader(dictionaryFile))){
+			
+			String line;
+			int index = 0;
+			
+			while((line = bReader.readLine()) != null ){
+				parseLine(line, index);
+				index++;
+			}
+			
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("File " + dictionaryFile.toString() + " was not found");
+		} catch (IOException e) {
+			System.out.println("There was a problem with I/O operation, reading file aborted");
 		}
-
-		input.close();
-		// end of Scanner for counting lines
-		// -----------------------------------------------------
-
-		words = new String[numberOfwords];
-		translations = new String[numberOfwords];
-		scores = new int[numberOfwords];
-
-		// -----------------------------------------------------
-		// beginning of Scanner for loading whole lines
-
-		input = new Scanner(dictionary);
-		String tempLine;
-		int counter = 0;
-
-		// incrementing counter until next line does not exist
-		while (input.hasNextLine()) {
-
-			tempLine = input.nextLine();
-			parseLine(tempLine, counter);
-
-			counter++;
-		}
-
-		input.close();
-		// end of Scanner for loading whole lines
-		// -----------------------------------------------------
+		
 	}
 
+	private int countWords(String filePath){
+		
+		int tempNumberOfWords = 0;
+		File dictionaryFile = new File(filePath);
+		
+		try(BufferedReader bReader = new BufferedReader(new FileReader(dictionaryFile))){
+			
+			while((bReader.readLine()) != null ){
+				tempNumberOfWords++;
+			}
+			
+			System.out.println("There are " + tempNumberOfWords + " words in dictionary");
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("File " + dictionaryFile.toString() + " was not found");
+		} catch (IOException e) {
+			System.out.println("There was a problem with I/O operation, reading file aborted");
+		}
+		
+		return tempNumberOfWords;
+	}
+	
 	private void parseLine(String line, int index) {
 
 		int indexOfColon = line.indexOf(":"); // checking where word ends and
 												// translation starts
 
-		//cutting the word and translation from the whole line and omitting white spaces
+		// cutting the word and translation from the whole line and omitting
+		// white spaces
 		words[index] = line.substring(0, indexOfColon).trim();
-		translations[index] = line.substring(indexOfColon + 1).trim(); 
+		translations[index] = line.substring(indexOfColon + 1).trim();
 		scores[index] = 0; // initially all words have score = 0
 	}
 
@@ -91,18 +109,18 @@ public class Words {
 
 		while (true) {
 
-			System.out.println("\nS³owo do t³umacznia: " + currentTranslation
+			System.out.println("\nWord for translation: " + currentTranslation
 					+ "\nä é ü ö ß");
 
 			// giving prompt after 3rd wrong answer,
 			// if more tries than letters - end the round and print the word
 			if (numberOfTries > 2 && numberOfTries < currentWord.length() + 3) {
-				System.out.println("PodpowiedŸ: ");
+				System.out.println("Prompt: ");
 				numberOfTries = getPrompt(numberOfTries);
 
 			} else if (numberOfTries == currentWord.length() + 3) {
-				System.out.println("S³owo to: " + currentWord);
-				System.out.println("Nastêpnym razem siê uda!");
+				System.out.println("Word was: " + currentWord);
+				System.out.println("Next time will be better!");
 
 				scores[index]--;
 
@@ -112,13 +130,13 @@ public class Words {
 			// checking if word was correctly guessed,
 			// if so - leave loop, if not, next try
 			if (input.nextLine().trim().equals(currentWord)) {
-				System.out.println("\nWybornie!");
+				System.out.println("\nGreat!");
 
 				scores[index]++;
 
 				break;
 			} else {
-				System.out.println("Spróbuj jeszcze raz.\n");
+				System.out.println("Try again\n");
 				numberOfTries++;
 			}
 		}
@@ -139,14 +157,14 @@ public class Words {
 			if (currentWord.charAt(i) == ' ') {
 				System.out.print("- ");
 				i++;
-				
-				if (counter - 3 == i){
+
+				if (counter - 3 == i) {
 					counter++;
 				}
 			}
-			
+
 			System.out.print(currentWord.charAt(i) + " ");
-			
+
 		}
 
 		// filling rest of the word with '-' for spaces and '_' for letters
@@ -157,15 +175,16 @@ public class Words {
 				System.out.print("_ ");
 			}
 		}
-		return counter; // returning counter in case space was additionally discovered
+		return counter; // returning counter in case space was additionally
+						// discovered
 	}
 
 	private int loadNextRandomWord() {
-		int randIndex = randInt(0, numberOfwords - 1);
+		int randIndex = randInt(0, numberOfWords - 1);
 
 		currentWord = words[randIndex];
 		currentTranslation = translations[randIndex];
-		//currentScore = scores[randIndex];
+		// currentScore = scores[randIndex];
 
 		return randIndex;
 	}

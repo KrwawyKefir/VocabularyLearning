@@ -1,9 +1,8 @@
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Play {
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) {
 
 		Words words = new Words("slowka.txt");
 
@@ -13,14 +12,14 @@ public class Play {
 			words.learnWord();
 
 			// simple menu to load next word or leave
-			System.out.println("\nDostêpne opcje:");
-			System.out.println("Nastêpne s³owo - Enter");
-			System.out.println("Wyjœcie - dowolny inny klawisz");
+			System.out.println("\nAvailable options:");
+			System.out.println("Next word - Enter");
+			System.out.println("Exit - any other key");
 
 		} while (input.nextLine().length() == 0);
 		
 		
-		System.out.println("Koniec!");
+		System.out.println("END");
 		input.close();
 	}
 	
