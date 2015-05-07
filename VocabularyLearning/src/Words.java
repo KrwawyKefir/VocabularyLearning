@@ -8,27 +8,62 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 public class Words {
 	int numberOfWords;
 
-	private String currentWord; // actual German word
-	private String currentTranslation; // translated word
+	private String currentWord;
+	private String currentTranslation;
 	private int currentScore;
 
 	private String[] words;
 	private String[] translations;
 	private int[] scores;
+	
+	private int[] currentChunkToLearn;
 
 	private Scanner input;
 
-	// method for random integer from range min-max (inclusive), used for
-	// choosing next word
-	public static int randInt(int min, int max) {
+	private static int randInt(int min, int max) {
 
 		Random rand = new Random();
 		int randomNum = rand.nextInt((max - min) + 1) + min;
 
 		return randomNum;
+	}
+	
+	private static int[] getMinValuesIndexes(int[] array){  
+	     
+		 int minValue = array[0];  
+		 int countValues = 1;
+	     
+	     for(int i = 1; i < array.length; i++){  
+	    	 
+		     if(array[i] < minValue){  
+		    	 minValue = array[i];
+		    	 countValues = 1;
+		     } else if (array[i] == minValue) {
+		    	 countValues++;
+		     }
+		     
+	     }  
+	     
+	     int[] minValues = new int[countValues];
+	     
+	     int index = 0;
+	     
+	     for(int i = 0; i < array.length; i++){  
+	    	 
+		     if(array[i] == minValue){  
+		    	 minValues[index] = i;
+		    	 
+		    	 index++;
+		     }  
+		     
+	     }
+	     
+	     return minValues;  
 	}
 
 	// constructor for loading text file into arrays
@@ -37,8 +72,8 @@ public class Words {
 		numberOfWords = countWords(filePath);
 		
 		loadWords(filePath);
-	
-		loadNextRandomWord();
+		
+		currentChunkToLearn = Words.getMinValuesIndexes(scores);
 	}
 	
 	public void writeChanges(String filePath){
@@ -128,9 +163,18 @@ public class Words {
 
 	public void learnWord() {
 
+		if(currentChunkToLearn.length == 0){
+			currentChunkToLearn = Words.getMinValuesIndexes(scores);
+		}
+		int currentRand = randInt(0, currentChunkToLearn.length - 1);
+		
+		int index = currentChunkToLearn[currentRand];
+		
+		currentWord = words[index];
+		currentTranslation = translations[index];
+		currentScore = scores[index];
+		
 		int numberOfTries = 0;
-		int index = loadNextRandomWord();
-
 		input = new Scanner(System.in);
 
 		while (true) {
@@ -147,9 +191,7 @@ public class Words {
 			} else if (numberOfTries == currentWord.length() + 3) {
 				System.out.println("Word was: " + currentWord);
 				System.out.println("Next time will be better!");
-
 				
-				System.out.println(scores[index]);
 				break;
 			}
 			
@@ -172,6 +214,8 @@ public class Words {
 			
 			scores[index]--;
 		}
+		
+		currentChunkToLearn = ArrayUtils.removeElement(currentChunkToLearn, index);
 	}
 
 	// getting prompt depending on attempt number - more tries = more uncovered
@@ -212,9 +256,9 @@ public class Words {
 						// discovered
 	}
 
-	private int loadNextRandomWord() {
+	private int loadNextRandomWord(int max) {
 		
-		int randIndex = randInt(0, numberOfWords - 1);
+		int randIndex = randInt(0, max - 1);
 
 		currentWord = words[randIndex];
 		currentTranslation = translations[randIndex];

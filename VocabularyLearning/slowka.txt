@@ -1,15 +1,15 @@
 die Unterwäsche - bielizna : 0
-das Dessous - bielizna damska : 0
+das Dessous - bielizna damska : -1
 sich umsechen nach - rozgl¹daæ siê : 0
 die Müche - fatyga, trud : 0
 wetten - za³o¿yæ siê : 0
-durchführen - przeprowadziæ : 0
+durchführen - przeprowadziæ : -1
 das Angebot - oferta : 0
 ähnlich - podobny (do) : 0
 umsonst - bez powodu : 0
 die Werbung - reklama : 0
 beseitigen - usun¹æ (na b) : 0
-entfernen - usun¹æ (na e) : 0
+entfernen - usun¹æ (na e) : -2
 glücklicherweise - na szczêœcie : 0
 manchmal - czasem : 0
 schweigen - milczeæ : 0
