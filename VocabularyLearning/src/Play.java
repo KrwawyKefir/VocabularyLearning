@@ -19,8 +19,11 @@ public class Play {
 		} while (input.nextLine().length() == 0);
 		
 		
-		System.out.println("END");
+		System.out.println("\nEND");
 		input.close();
+		
+		words.writeChanges("slowka.txt");
+		
 	}
 	
 }

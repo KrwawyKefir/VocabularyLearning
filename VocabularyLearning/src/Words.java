@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
@@ -33,9 +35,33 @@ public class Words {
 	public Words(String filePath) {
 		
 		numberOfWords = countWords(filePath);
+		
 		loadWords(filePath);
 	
 		loadNextRandomWord();
+	}
+	
+	public void writeChanges(String filePath){
+		
+		File dictionaryFile = new File(filePath);
+		
+		try(BufferedWriter bReader = new BufferedWriter(new FileWriter(dictionaryFile))){
+			
+			int numberOfLines = words.length;
+			
+			for(int i = 0; i < numberOfLines; i++){
+				bReader.write(words[i] + " - " + translations[i] + " : " + scores[i]);
+				
+				if(i < numberOfLines - 1){
+					bReader.newLine();
+				}
+			}
+			
+			
+		} catch (IOException e) {
+			System.out.println("There was a problem with I/O operation, reading file aborted");
+		}
+		
 	}
 	
 	private void loadWords(String filePath){
@@ -89,14 +115,15 @@ public class Words {
 	
 	private void parseLine(String line, int index) {
 
-		int indexOfColon = line.indexOf(":"); // checking where word ends and
-												// translation starts
+		int indexOfColon = line.indexOf(":"); // looking for the score part
+												
+		int indexOfDash = line.indexOf("-"); // checking where word ends and translation starts
 
 		// cutting the word and translation from the whole line and omitting
 		// white spaces
-		words[index] = line.substring(0, indexOfColon).trim();
-		translations[index] = line.substring(indexOfColon + 1).trim();
-		scores[index] = 0; // initially all words have score = 0
+		words[index] = line.substring(0, indexOfDash).trim();
+		translations[index] = line.substring(indexOfDash + 1, indexOfColon).trim();
+		scores[index] = Integer.parseInt( line.substring(indexOfColon + 1).trim() );
 	}
 
 	public void learnWord() {
@@ -108,23 +135,25 @@ public class Words {
 
 		while (true) {
 
-			System.out.println("\nWord for translation: " + currentTranslation
-					+ "\nä é ü ö ß");
+			System.out.println("\nWord for translation: " + currentTranslation);
 
 			// giving prompt after 3rd wrong answer,
 			// if more tries than letters - end the round and print the word
 			if (numberOfTries > 2 && numberOfTries < currentWord.length() + 3) {
-				System.out.println("Prompt: ");
+				System.out.println("\nPrompt: ");
 				numberOfTries = getPrompt(numberOfTries);
+				System.out.println("");
 
 			} else if (numberOfTries == currentWord.length() + 3) {
 				System.out.println("Word was: " + currentWord);
 				System.out.println("Next time will be better!");
 
-				scores[index]--;
-
+				
+				System.out.println(scores[index]);
 				break;
 			}
+			
+			System.out.println("ä é ü ö ß");
 
 			// checking if word was correctly guessed,
 			// if so - leave loop, if not, next try
@@ -134,10 +163,14 @@ public class Words {
 				scores[index]++;
 
 				break;
+			} else if (numberOfTries < currentWord.length() + 2){
+				System.out.println("Try again");
+				numberOfTries++;
 			} else {
-				System.out.println("Try again\n");
 				numberOfTries++;
 			}
+			
+			scores[index]--;
 		}
 	}
 
@@ -174,16 +207,18 @@ public class Words {
 				System.out.print("_ ");
 			}
 		}
+
 		return counter; // returning counter in case space was additionally
 						// discovered
 	}
 
 	private int loadNextRandomWord() {
+		
 		int randIndex = randInt(0, numberOfWords - 1);
 
 		currentWord = words[randIndex];
 		currentTranslation = translations[randIndex];
-		// currentScore = scores[randIndex];
+		currentScore = scores[randIndex];
 
 		return randIndex;
 	}
