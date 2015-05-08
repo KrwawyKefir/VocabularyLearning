@@ -11,7 +11,7 @@ public class Play {
 		do {
 			words.learnWord();
 
-			// simple menu to load next word or leave
+			
 			System.out.println("\nAvailable options:");
 			System.out.println("Next word - Enter");
 			System.out.println("Exit - any other key");
