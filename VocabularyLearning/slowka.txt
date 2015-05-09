@@ -21,10 +21,10 @@ der Berufsleben - ¿ycie zawodowe : 3
 die Tätigkeit - czynnoœæ : 5
 entsprechen - odpowiadaæ (coœ czemuœ) : 5
 eingespielt - zgrany : 0
-die Leistung - wynik, osi¹gniecie : -1
+die Leistung - wynik, osi¹gniecie : 1
 glänzen - b³yszczeæ : 5
-unbedingt - koniecznie, absolutnie : 0
-hassen - nienawidzieæ : 0
+unbedingt - koniecznie, absolutnie : 2
+hassen - nienawidzieæ : 2
 unnötig - niepotrzebny : 1
 bereit - gotowy : 5
 selber - samodzielnie : 0
@@ -33,8 +33,8 @@ kämpfen - walczyæ : 5
 die Gelegenheit - okazja : 5
 solange - tak d³ugo, jak : 0
 der Verdienst - zarobek, pensja : 0
-angenehm - przyjemny : -1
-leisten - pozwalaæ na coœ : -1
+angenehm - przyjemny : 1
+leisten - pozwalaæ na coœ : 1
 loben - chwaliæ : 0
 der Erfolg - sukces : 3
 ständig - nieustannie, ci¹gle : 0
