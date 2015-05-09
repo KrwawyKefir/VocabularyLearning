@@ -4,13 +4,20 @@ public class Play {
 
 	public static void main(String[] args) {
 
-		Words words = new Words("slowka.txt");
+		//location of a text file
+		String filePath = "slowka.txt";
+		
+		
+		//Creating object that will contain whole collections
+		//of words, translations, scores and all methods for 
+		//learning process
+		Words words = new Words(filePath);
 
+		//For menu purposes only
 		Scanner input = new Scanner(System.in);
 
 		do {
 			words.learnWord();
-
 			
 			System.out.println("\nAvailable options:");
 			System.out.println("Next word - Enter");
@@ -22,7 +29,8 @@ public class Play {
 		System.out.println("\nEND");
 		input.close();
 		
-		words.writeChanges("slowka.txt");
+		//original file will be overwritten with changes
+		words.writeChanges(filePath);
 		
 	}
 	

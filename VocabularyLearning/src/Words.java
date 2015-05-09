@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Random;
 import java.util.Scanner;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -25,46 +24,7 @@ public class Words {
 
 	private Scanner input;
 
-	private static int randInt(int min, int max) {
 
-		Random rand = new Random();
-		int randomNum = rand.nextInt((max - min) + 1) + min;
-
-		return randomNum;
-	}
-	
-	private static int[] getMinValuesIndexes(int[] array){  
-	     
-		 int minValue = array[0];  
-		 int countValues = 1;
-	     
-	     for(int i = 1; i < array.length; i++){  
-	    	 
-		     if(array[i] < minValue){  
-		    	 minValue = array[i];
-		    	 countValues = 1;
-		     } else if (array[i] == minValue) {
-		    	 countValues++;
-		     }
-		     
-	     }  
-	     
-	     int[] minValues = new int[countValues];
-	     
-	     int index = 0;
-	     
-	     for(int i = 0; i < array.length; i++){  
-	    	 
-		     if(array[i] == minValue){  
-		    	 minValues[index] = i;
-		    	 
-		    	 index++;
-		     }  
-		     
-	     }
-	     
-	     return minValues;  
-	}
 
 	// constructor for loading text file into arrays
 	public Words(String filePath) {
@@ -73,100 +33,15 @@ public class Words {
 		
 		loadWords(filePath);
 		
-		currentChunkToLearn = Words.getMinValuesIndexes(scores);
-	}
-	
-	public void writeChanges(String filePath){
-		
-		File dictionaryFile = new File(filePath);
-		
-		try(BufferedWriter bReader = new BufferedWriter(new FileWriter(dictionaryFile))){
-			
-			int numberOfLines = words.length;
-			
-			for(int i = 0; i < numberOfLines; i++){
-				bReader.write(words[i] + " - " + translations[i] + " : " + scores[i]);
-				
-				if(i < numberOfLines - 1){
-					bReader.newLine();
-				}
-			}
-			
-			
-		} catch (IOException e) {
-			System.out.println("There was a problem with I/O operation, reading file aborted");
-		}
-		
-	}
-	
-	private void loadWords(String filePath){
-		
-		words = new String[numberOfWords];
-		translations = new String[numberOfWords];
-		scores = new int[numberOfWords];
-		
-		File dictionaryFile = new File(filePath);
-		
-		try(BufferedReader bReader = new BufferedReader(new FileReader(dictionaryFile))){
-			
-			String line;
-			int index = 0;
-			
-			while((line = bReader.readLine()) != null ){
-				parseLine(line, index);
-				index++;
-			}
-			
-			
-		} catch (FileNotFoundException e) {
-			System.out.println("File " + dictionaryFile.toString() + " was not found");
-		} catch (IOException e) {
-			System.out.println("There was a problem with I/O operation, reading file aborted");
-		}
-		
-	}
-
-	private int countWords(String filePath){
-		
-		int tempNumberOfWords = 0;
-		File dictionaryFile = new File(filePath);
-		
-		try(BufferedReader bReader = new BufferedReader(new FileReader(dictionaryFile))){
-			
-			while((bReader.readLine()) != null ){
-				tempNumberOfWords++;
-			}
-			
-			System.out.println("There are " + tempNumberOfWords + " words in dictionary");
-			
-		} catch (FileNotFoundException e) {
-			System.out.println("File " + dictionaryFile.toString() + " was not found");
-		} catch (IOException e) {
-			System.out.println("There was a problem with I/O operation, reading file aborted");
-		}
-		
-		return tempNumberOfWords;
-	}
-	
-	private void parseLine(String line, int index) {
-
-		int indexOfColon = line.indexOf(":"); // looking for the score part
-												
-		int indexOfDash = line.indexOf("-"); // checking where word ends and translation starts
-
-		// cutting the word and translation from the whole line and omitting
-		// white spaces
-		words[index] = line.substring(0, indexOfDash).trim();
-		translations[index] = line.substring(indexOfDash + 1, indexOfColon).trim();
-		scores[index] = Integer.parseInt( line.substring(indexOfColon + 1).trim() );
+		currentChunkToLearn = Utilities.getMinValuesIndexes(scores);
 	}
 
 	public void learnWord() {
 
 		if(currentChunkToLearn.length == 0){
-			currentChunkToLearn = Words.getMinValuesIndexes(scores);
+			currentChunkToLearn = Utilities.getMinValuesIndexes(scores);
 		}
-		int currentRand = randInt(0, currentChunkToLearn.length - 1);
+		int currentRand = Utilities.randInt(0, currentChunkToLearn.length - 1);
 		
 		int index = currentChunkToLearn[currentRand];
 		
@@ -202,7 +77,7 @@ public class Words {
 			if (input.nextLine().trim().equals(currentWord)) {
 				System.out.println("\nGreat!");
 
-				scores[index]++;
+				scores[index] += 2;
 
 				break;
 			} else if (numberOfTries < currentWord.length() + 2){
@@ -212,10 +87,86 @@ public class Words {
 				numberOfTries++;
 			}
 			
-			scores[index]--;
+			if (currentScore < scores[index] + 3){
+				scores[index]--;
+			}
 		}
 		
 		currentChunkToLearn = ArrayUtils.removeElement(currentChunkToLearn, index);
+	}
+	
+
+	
+	private int countWords(String filePath){
+		
+		int tempNumberOfWords = 0;
+		File dictionaryFile = new File(filePath);
+		
+		try(BufferedReader bReader = new BufferedReader(new FileReader(dictionaryFile))){
+			
+			while((bReader.readLine()) != null ){
+				tempNumberOfWords++;
+			}
+			
+			System.out.println("There are " + tempNumberOfWords + " words in dictionary");
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("File " + dictionaryFile.toString() + " was not found");
+		} catch (IOException e) {
+			System.out.println("There was a problem with I/O operation, reading file aborted");
+		}
+		
+		return tempNumberOfWords;
+	}
+	
+	private void loadWords(String filePath){
+		
+		words = new String[numberOfWords];
+		translations = new String[numberOfWords];
+		scores = new int[numberOfWords];
+		
+		File dictionaryFile = new File(filePath);
+		
+		try(BufferedReader bReader = new BufferedReader(new FileReader(dictionaryFile))){
+			
+			String line;
+			int index = 0;
+			
+			while((line = bReader.readLine()) != null ){
+				parseLine(line, index);
+				index++;
+			}
+			
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("File " + dictionaryFile.toString() + " was not found");
+		} catch (IOException e) {
+			System.out.println("There was a problem with I/O operation, reading file aborted");
+		}
+		
+	}
+
+	public void writeChanges(String filePath){
+		
+		File dictionaryFile = new File(filePath);
+		
+		try(BufferedWriter bReader = new BufferedWriter(new FileWriter(dictionaryFile))){
+			
+			int numberOfLines = words.length;
+			
+			for(int i = 0; i < numberOfLines; i++){
+				bReader.write(words[i] + " - " + translations[i] + " : " + scores[i]);
+				
+				if(i < numberOfLines - 1){
+					bReader.newLine();
+				}
+			}
+			
+			
+		} catch (IOException e) {
+			System.out.println("There was a problem with I/O operation, reading file aborted");
+		}
+		
 	}
 
 	// getting prompt depending on attempt number - more tries = more uncovered
@@ -256,6 +207,7 @@ public class Words {
 						// discovered
 	}
 
+	/*
 	private int loadNextRandomWord(int max) {
 		
 		int randIndex = randInt(0, max - 1);
@@ -265,6 +217,20 @@ public class Words {
 		currentScore = scores[randIndex];
 
 		return randIndex;
+	}
+	*/
+	
+	private void parseLine(String line, int index) {
+
+		int indexOfColon = line.indexOf(":"); // looking for the score part
+												
+		int indexOfDash = line.indexOf("-"); // checking where word ends and translation starts
+
+		// cutting the word and translation from the whole line and omitting
+		// white spaces
+		words[index] = line.substring(0, indexOfDash).trim();
+		translations[index] = line.substring(indexOfDash + 1, indexOfColon).trim();
+		scores[index] = Integer.parseInt( line.substring(indexOfColon + 1).trim() );
 	}
 
 	// getters

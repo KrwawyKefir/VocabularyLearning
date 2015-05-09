@@ -1,56 +1,56 @@
-die Unterwäsche - bielizna : 0
-das Dessous - bielizna damska : -1
+die Unterwäsche - bielizna : 3
+das Dessous - bielizna damska : 0
 sich umsechen nach - rozgl¹daæ siê : 0
-die Müche - fatyga, trud : 0
-wetten - za³o¿yæ siê : 0
-durchführen - przeprowadziæ : -1
+die Müche - fatyga, trud : 1
+wetten - za³o¿yæ siê : 5
+durchführen - przeprowadziæ : 5
 das Angebot - oferta : 0
 ähnlich - podobny (do) : 0
-umsonst - bez powodu : 0
-die Werbung - reklama : 0
-beseitigen - usun¹æ (na b) : 0
-entfernen - usun¹æ (na e) : -2
-glücklicherweise - na szczêœcie : 0
-manchmal - czasem : 0
-schweigen - milczeæ : 0
-sicher - pewny, bezpieczny : 0
-gefährlich - groŸny, niebezpieczny : 0
+umsonst - bez powodu : 5
+die Werbung - reklama : 4
+beseitigen - usun¹æ (na b) : 5
+entfernen - usun¹æ (na e) : 1
+glücklicherweise - na szczêœcie : 4
+manchmal - czasem : 5
+schweigen - milczeæ : 4
+sicher - pewny, bezpieczny : 5
+gefährlich - groŸny, niebezpieczny : 3
 letztens - ostatnio : 0
 die Zufriedenheit - zadowolenie : 0
-der Berufsleben - ¿ycie zawodowe : 0
-die Tätigkeit - czynnoœæ : 0
-entsprechen - odpowiadaæ (coœ czemuœ) : 0
+der Berufsleben - ¿ycie zawodowe : 3
+die Tätigkeit - czynnoœæ : 5
+entsprechen - odpowiadaæ (coœ czemuœ) : 5
 eingespielt - zgrany : 0
-die Leistung - wynik, osi¹gniecie : 0
-glänzen - b³yszczeæ : 0
+die Leistung - wynik, osi¹gniecie : -1
+glänzen - b³yszczeæ : 5
 unbedingt - koniecznie, absolutnie : 0
 hassen - nienawidzieæ : 0
-unnötig - niepotrzebny : 0
-bereit - gotowy : 0
+unnötig - niepotrzebny : 1
+bereit - gotowy : 5
 selber - samodzielnie : 0
-tun - robiæ : 0
-kämpfen - walczyæ : 0
-die Gelegenheit - okazja : 0
+tun - robiæ : 5
+kämpfen - walczyæ : 5
+die Gelegenheit - okazja : 5
 solange - tak d³ugo, jak : 0
 der Verdienst - zarobek, pensja : 0
-angenehm - przyjemny : 0
-leisten - pozwalaæ na coœ : 0
+angenehm - przyjemny : -1
+leisten - pozwalaæ na coœ : -1
 loben - chwaliæ : 0
-der Erfolg - sukces : 0
+der Erfolg - sukces : 3
 ständig - nieustannie, ci¹gle : 0
 die Anerkennung - uznanie : 0
 geschätzt - ceniæ : 0
 sofort - natychmiast : 0
 davon - o tym : 0
-erfahren - dowiedzieæ siê : 0
+erfahren - dowiedzieæ siê : 5
 die Beförderung - awans : 0
-hinzukommen - dojœæ (coœ w dodatku do czegoœ) : 0
-stark - silny : 0
+hinzukommen - dojœæ (coœ w dodatku do czegoœ) : 5
+stark - silny : 5
 die Ertwarung - oczekiwanie : 0
 der Karriereleiter - drabina kariery : 0
-der Vorgesetzte - prze³o¿ony : 0
-erfüllen - wype³aniaæ : 0
-aufsteigen - wspi¹æ siê : 0
-die Aufgabe - zadanie : 0
-abhängig - uzale¿niony : 0
-der Gedanke - myœl : 0
+der Vorgesetzte - prze³o¿ony : 5
+erfüllen - wype³aniaæ : 1
+aufsteigen - wspi¹æ siê : 3
+die Aufgabe - zadanie : 1
+abhängig - uzale¿niony : 5
+der Gedanke - myœl : 4
