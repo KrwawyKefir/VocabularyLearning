@@ -8,8 +8,7 @@ public class Play {
 		String filePath = "slowka.txt";
 		
 		//Creating object that will contain whole collections
-		//of words, translations, scores and all methods for
-		//learning process
+		//of words, translations, scores and handling file operations
 		Words words = new Words(filePath);
 
 		//For menu purposes only

@@ -23,8 +23,8 @@ public class SingleWord {
 		return score;
 	}
 
-	public void setScore(int score) {
-		this.score = score;
+	public void amendScore(int amendment) {
+		this.score = score + amendment;
 	}
 	
 }
